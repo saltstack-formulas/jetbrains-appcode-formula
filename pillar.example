@@ -1,12 +1,10 @@
 appcode:
-  jetbrains:
-    #Default edition is None (30 day trial, Student license too)
-    edition: 
   dl:
     retries: 1
     interval: 30
-  alt:
-    priority: 170
   prefs:
     user: undefined_user
- 
+    #See https://www.jetbrains.com/help/objc/exporting-and-importing-preferences.html
+    jarurl:
+    jardir:
+    jarfile: my-appcode-settings.jar

@@ -8,10 +8,12 @@ appcode:
   osflavour: mac
 
   jetbrains:
+    home: /opt/jetbrains
+    uri: https://data.services.jetbrains.com/products/releases?latest=true&code=
+    #See https://www.jetbrains.com/help/objc/meet-appcode.html
     #Default is Appcode
     product: AC
     edition:
-    uri: https://data.services.jetbrains.com/products/releases?latest=true&code=
 
   dl:
     opts: -s -L
@@ -20,16 +22,11 @@ appcode:
     source_url:
     src_hashfile:
     src_hashsum:
-    archive_name:
-    unpack_opts:
-
-  alt:
-    realhome: 
-    realcmd:
 
   prefs:
-    user: undefined_user
-    importurl:
-    importdir:
-    myfile: appcode-prefs.xml
+    user:
+    #See https://www.jetbrains.com/help/objc/exporting-and-importing-preferences.html
+    jarurl:
+    jardir:
+    jarfile: appcode-prefs.jar
 

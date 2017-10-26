@@ -12,9 +12,8 @@
 {%- set jdata = salt['cmd.run']('curl {0} {1}{2}'.format(ide.dl.opts, ide.jetbrains.uri, pcode))|load_yaml %}
 
 {% set _home = '{0}.app/Contents/MacOS'.format(ide.prefix) %}
-{% do ide.alt.update({ 'realhome': _home, 'realcmd': _home ~ ide.command },) %}
+{% do ide.jetbrains.update({ 'realhome': _home, 'realcmd': _home ~ ide.command },) %}
 
-# Set Jetbrains IDE download details
 {%- set src_hashurl = jdata[ pcode ][0]['downloads'][ ide.osflavour ]['checksumLink'] %}
 {%- set src_hashsum  = salt['cmd.run']('curl -s {0}'.format( src_hashurl )).split(' ')[0] %}
 {% do ide.dl.update({
@@ -25,6 +24,5 @@
        'unpack_opts' : ' -z -C ' ~  _home ~ ' --strip-components=1' },
     )
 %}
-
 {% set appcode = ide %}
 

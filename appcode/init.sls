@@ -3,14 +3,14 @@
 # Cleanup first
 appcode-remove-prev-archive:
   file.absent:
-    - name: '{{ appcode.tmpdir }}/{{ appcode.dl.archive_name }}'
+    - name: '{{ appcode.tmpdir }}'
     - require_in:
       - appcode-install-dir
 
 appcode-install-dir:
   file.directory:
     - names:
-      - '{{ appcode.alt.realhome }}'
+      - '{{ appcode.jetbrains.realhome }}'
       - '{{ appcode.tmpdir }}'
     - makedirs: True
     - require_in:
@@ -19,16 +19,16 @@ appcode-install-dir:
 appcode-download-archive:
   cmd.run:
     - name: curl {{ appcode.dl.opts }} -o '{{ appcode.tmpdir }}/{{ appcode.dl.archive_name }}' {{ appcode.dl.source_url }}
-      {% if grains['saltversioninfo'] >= [2017, 7, 0] %}
+{% if grains['saltversioninfo'] >= [2017, 7, 0] %}
     - retry:
         attempts: {{ appcode.dl.retries }}
         interval: {{ appcode.dl.interval }}
-      {% endif %}
+{% endif %}
 
 {%- if appcode.dl.src_hashsum %}
    # Check local archive using hashstring for older Salt / MacOS.
    # (see https://github.com/saltstack/salt/pull/41914).
-  {%- if grains['saltversioninfo'] <= [2016, 11, 6] or grains.os in ('MacOS') %}
+  {%- if grains['saltversioninfo'] <= [2016, 11, 6] or grains.os in ('MacOS',) %}
 appcode-check-archive-hash:
    module.run:
      - name: file.check_hash
@@ -39,6 +39,7 @@ appcode-check-archive-hash:
      - require_in:
        - archive: appcode-package-install
   {%- endif %}
+
 {%- endif %}
 
 appcode-package-install:

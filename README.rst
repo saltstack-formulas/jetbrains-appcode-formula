@@ -26,9 +26,8 @@ This formula automatically installs latest Jetbrains release. This behaviour may
 
 ``appcode.developer``
 ------------
-Optionally get preferences file from url/share and place in 'user' (pillar) home directory for import.  Creates a Desktop shortcut.
+Creates Desktop shortcut.  Optionally retrieve preferences file from url/share to 'user' (pillar) home directory.
 
 
 Please see the pillar.example for configuration.
-
 Tested on MacOS.

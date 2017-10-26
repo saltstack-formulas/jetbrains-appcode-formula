@@ -1,6 +1,8 @@
 {% from "appcode/map.jinja" import appcode with context %}
 
-{% if appcode.prefs.user not in (None, 'undefined_user') %}
+{% if grains.os == 'MacOS' %}
+
+  {% if appcode.prefs.user not in (None, 'undefined_user', 'undefined', '',) %}
 
 appcode-desktop-shortcut-clean:
   file.absent:
@@ -23,23 +25,27 @@ appcode-desktop-shortcut-add:
     - require:
       - file: appcode-desktop-shortcut-add
 
-  {% if appcode.prefs.importurl or appcode.prefs.importdir %}
+    {% if appcode.prefs.jarurl or appcode.prefs.jardir %}
 
 appcode-prefs-importfile:
-   {% if appcode.prefs.importdir %}
+      {% if appcode.prefs.jardir %}
   file.managed:
-    - onlyif: test -f {{ appcode.prefs.importdir }}/{{ appcode.prefs.myfile }}
-    - name: {{ appcode.homes }}/{{ appcode.prefs.user }}/{{ appcode.prefs.myfile }}
-    - source: {{ appcode.prefs.importdir }}/{{ appcode.prefs.myfile }}
+    - onlyif: test -f {{ appcode.prefs.jardir }}/{{ appcode.prefs.jarfile }}
+    - name: {{ appcode.homes }}/{{ appcode.prefs.user }}/{{ appcode.prefs.jarfile }}
+    - source: {{ appcode.prefs.jardir }}/{{ appcode.prefs.jarfile }}
     - user: {{ appcode.prefs.user }}
     - makedirs: True
-    - if_missing: {{ appcode.homes }}/{{ appcode.prefs.user }}/{{ appcode.prefs.myfile }}
-   {% else %}
+    - if_missing: {{ appcode.homes }}/{{ appcode.prefs.user }}/{{ appcode.prefs.jarfile }}
+      {% else %}
   cmd.run:
-    - name: curl -o {{appcode.homes}}/{{appcode.prefs.user}}/{{appcode.prefs.myfile}} {{appcode.prefs.importurl}}
+    - name: curl -o {{appcode.homes}}/{{appcode.prefs.user}}/{{appcode.prefs.jarfile}} {{appcode.prefs.jarurl}}
     - runas: {{ appcode.prefs.user }}
-    - if_missing: {{ appcode.homes }}/{{ appcode.prefs.user }}/{{ appcode.prefs.myfile }}
-   {% endif %}
+    - if_missing: {{ appcode.homes }}/{{ appcode.prefs.user }}/{{ appcode.prefs.jarfile }}
+      {% endif %}
+
+    {% endif %}
 
   {% endif %}
+
+{% endif %}
 
