@@ -1,0 +1,8 @@
+name: Appcode
+os: MacOS
+os_family: MacOS
+version: 201710
+release: 1
+minimum_version: 2016.3
+summary: Formula for installing Jetbrains Appcode
+description: Formula for installing Jetbrains Appcode IDE for iOS/macOS developers

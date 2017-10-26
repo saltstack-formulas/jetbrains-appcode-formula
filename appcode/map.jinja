@@ -1,0 +1,30 @@
+# -*- coding: utf-8 -*-
+# vim: ft=jinja
+
+# Start with defaults from defs.yaml 
+{% import_yaml 'appcode/defaults.yaml' as defs %}
+
+# Merge osmap onto default settings before merging pillars.
+{% set ide = salt['pillar.get']( 'appcode', default=defs.appcode, merge=True) %}
+
+# Set Jetbrains IDE latest release details
+{%- set pcode = ide.jetbrains.product %}
+{%- set jdata = salt['cmd.run']('curl {0} {1}{2}'.format(ide.dl.opts, ide.jetbrains.uri, pcode))|load_yaml %}
+
+{% set _home = '{0}.app/Contents/MacOS'.format(ide.prefix) %}
+{% do ide.alt.update({ 'realhome': _home, 'realcmd': _home ~ ide.command },) %}
+
+# Set Jetbrains IDE download details
+{%- set src_hashurl = jdata[ pcode ][0]['downloads'][ ide.osflavour ]['checksumLink'] %}
+{%- set src_hashsum  = salt['cmd.run']('curl -s {0}'.format( src_hashurl )).split(' ')[0] %}
+{% do ide.dl.update({
+       'source_url'  : jdata[ pcode ][0]['downloads'][ ide.osflavour ]['link'],
+       'archive_name': jdata[ pcode ][0]['downloads'][ ide.osflavour ]['link'].split('/') | last ,
+       'src_hashurl' : src_hashurl,
+       'src_hashsum' : src_hashsum,
+       'unpack_opts' : ' -z -C ' ~  _home ~ ' --strip-components=1' },
+    )
+%}
+
+{% set appcode = ide %}
+
