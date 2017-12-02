@@ -1,6 +1,6 @@
-========
-appcode
-========
+==================
+jetbrains-appcode
+==================
 
 Formula for latest Appcode IDE from Jetbrains for MacOS.
 
@@ -8,6 +8,8 @@ Formula for latest Appcode IDE from Jetbrains for MacOS.
 
     See the full `Salt Formulas installation and usage instructions
     <http://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html>`_.
+    Refer to pillar.example and defaults.yaml for configurable values.
+    Tested on MacOS.
     
 Available states
 ================
@@ -26,8 +28,5 @@ This formula automatically installs latest Jetbrains release. This behaviour may
 
 ``appcode.developer``
 ------------
-Creates Desktop shortcut.  Optionally retrieve preferences file from url/share to 'user' (pillar) home directory.
+Creates Desktop shortcut. Optionally retrieve a preferences file from url/share to 'user' (pillar) home directory.
 
-
-Please see the pillar.example for configuration.
-Tested on MacOS.
