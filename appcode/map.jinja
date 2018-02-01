@@ -12,6 +12,12 @@
 {%- set src_hashsum  = salt['cmd.run']('curl -s {0}'.format( src_hashurl )).split(' ')[0] %}
 {% set _home = '{0}.app/Contents/MacOS'.format(ide.prefix) %}
 
+# Get user's group name from pillar or 'id' command
+{%- if not ide.prefs.group %}
+  {%- set usergroup = salt['cmd.run']('id -gn', runas=ide.prefs.user, output_loglevel='quiet',) or None %}
+  {%- do ide.prefs.update({'group': usergroup,}) %}
+{% endif %}
+
 # Update dictionaries
 {% do ide.jetbrains.update({ 'realhome': _home, 'realcmd': _home ~ ide.command },) %}
 {% do ide.dl.update({

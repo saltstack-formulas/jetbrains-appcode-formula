@@ -25,6 +25,7 @@ appcode:
 
   prefs:
     user:
+    group:
     #See https://www.jetbrains.com/help/objc/exporting-and-importing-preferences.html
     jarurl:
     jardir:

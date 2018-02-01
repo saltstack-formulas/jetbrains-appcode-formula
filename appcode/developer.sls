@@ -1,14 +1,13 @@
 {% from "appcode/map.jinja" import appcode with context %}
 
-{% if grains.os == 'MacOS' %}
-
-  {% if appcode.prefs.user not in (None, 'undefined_user', 'undefined', '',) %}
+{% if appcode.prefs.user %}
 
 appcode-desktop-shortcut-clean:
   file.absent:
     - name: '{{ appcode.homes }}/{{ appcode.prefs.user }}/Desktop/Appcode'
     - require_in:
       - file: appcode-desktop-shortcut-add
+    - onlyif: test "`uname`" = "Darwin"
 
 appcode-desktop-shortcut-add:
   file.managed:
@@ -19,33 +18,36 @@ appcode-desktop-shortcut-add:
     - context:
       user: {{ appcode.prefs.user }}
       homes: {{ appcode.homes }}
+    - onlyif: test "`uname`" = "Darwin"
   cmd.run:
     - name: /tmp/mac_shortcut.sh {{ appcode.jetbrains.edition }}
     - runas: {{ appcode.prefs.user }}
     - require:
       - file: appcode-desktop-shortcut-add
+    - onlyif: test "`uname`" = "Darwin"
+
 
     {% if appcode.prefs.jarurl or appcode.prefs.jardir %}
 
 appcode-prefs-importfile:
-      {% if appcode.prefs.jardir %}
   file.managed:
     - onlyif: test -f {{ appcode.prefs.jardir }}/{{ appcode.prefs.jarfile }}
     - name: {{ appcode.homes }}/{{ appcode.prefs.user }}/{{ appcode.prefs.jarfile }}
     - source: {{ appcode.prefs.jardir }}/{{ appcode.prefs.jarfile }}
     - user: {{ appcode.prefs.user }}
+       {% if appcode.prefs.group and grains.os not in ('MacOS',) %}
+    - group: {{ appcode.prefs.group }}
+       {% endif %}
     - makedirs: True
     - if_missing: {{ appcode.homes }}/{{ appcode.prefs.user }}/{{ appcode.prefs.jarfile }}
-      {% else %}
+    - onlyif: test "`uname`" = "Darwin"
   cmd.run:
+    - unless: test -f {{ appcode.prefs.jardir }}/{{ appcode.prefs.jarfile }}
     - name: curl -o {{appcode.homes}}/{{appcode.prefs.user}}/{{appcode.prefs.jarfile}} {{appcode.prefs.jarurl}}
     - runas: {{ appcode.prefs.user }}
     - if_missing: {{ appcode.homes }}/{{ appcode.prefs.user }}/{{ appcode.prefs.jarfile }}
-      {% endif %}
-
+    - onlyif: test "`uname`" = "Darwin"
     {% endif %}
-
-  {% endif %}
 
 {% endif %}
 
