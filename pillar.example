@@ -4,6 +4,7 @@ appcode:
     interval: 30
   prefs:
     user: undefined_user
+    #group:
     #See https://www.jetbrains.com/help/objc/exporting-and-importing-preferences.html
     jarurl:
     jardir:
