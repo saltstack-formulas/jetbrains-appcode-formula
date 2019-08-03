@@ -16,8 +16,8 @@ appcode-desktop-shortcut-add:
     - mode: 755
     - template: jinja
     - context:
-      user: {{ appcode.prefs.user }}
-      homes: {{ appcode.homes }}
+      user: {{ appcode.prefs.user|json }}
+      homes: {{ appcode.homes|json }}
     - onlyif: test "`uname`" = "Darwin"
   cmd.run:
     - name: /tmp/mac_shortcut.sh {{ appcode.jetbrains.edition }}
