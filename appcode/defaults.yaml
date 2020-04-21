@@ -1,33 +1,48 @@
-#Default Look Dictionary
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+---
+{%- if grains.os == 'MacOS' %}
+    {%- set macos_rootuser = salt['cmd.run']("stat -f '%Su' /dev/console") %}
+    {%- set macos_rootgroup = salt['cmd.run']("stat -f '%Sg' /dev/console") %}
+{%- endif %}
 
 appcode:
-  prefix: /Applications/Appcode
-  tmpdir: /tmp/jetbrainstmp
+  product: AC
+  edition: ''
+  flavour: mac
+  release: latest
+  version: latest
+
   command: /appcode
-  homes: /Users
-  osflavour: mac
+  config_file: None
+  config: {}
+  environ_file: /etc/defaults/appcode.sh
+  environ: []
 
-  jetbrains:
-    home: /opt/jetbrains
-    uri: https://data.services.jetbrains.com/products/releases?latest=true&code=
-    #See https://www.jetbrains.com/help/objc/meet-appcode.html
-    #Default is Appcode
-    product: AC
-    edition:
+  pkg:
+    name: Appcode
+    use_upstream_macapp: true
+    deps:
+      - curl
+      - tar
+      - gzip
+    suffix: dmg
+    macapp:
+      path: None
+      uri: 'https://data.services.jetbrains.com/products/releases?latest=true&code='
 
-  dl:
-    opts: -s -L
-    interval: 60
-    retries: 1
-    source_url:
-    src_hashfile:
-    src_hashsum:
+  dir:
+    homes: /Users
+    tmp: /tmp/jetbrains/appcode
 
-  prefs:
-    user:
-    group:
-    #See https://www.jetbrains.com/help/objc/exporting-and-importing-preferences.html
-    jarurl:
-    jardir:
-    jarfile: appcode-prefs.jar
+  identity:
+    rootuser: {{ macos_rootuser | d('') }}
+    rootgroup: {{ macos_rootgroup | d('') }}
+    user: {{ macos_rootuser | d('') }}
 
+  retry_option:
+    # https://docs.saltstack.com/en/latest/ref/states/requisites.html#retrying-states
+    attempts: 2
+    until: true
+    interval: 10
+    splay: 10

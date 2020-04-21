@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 # vim: ft=sls
 
+    {%- if grains.kernel|lower in ('darwin',) %}
+
 {%- set tplroot = tpldir.split('/')[0] %}
 {%- from tplroot ~ "/map.jinja" import appcode with context %}
 
-    {%- if grains.kernel|lower in ('darwin',) %}
-
 include:
-  - .macapp
-  - .config
+  - .macapp.clean
+  - .config.clean
 
     {%- else %}
 
