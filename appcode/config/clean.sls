@@ -3,8 +3,6 @@
 
 {%- set tplroot = tpldir.split('/')[0] %}
 {%- from tplroot ~ "/map.jinja" import appcode with context %}
-
-include:
 {%- set sls_package_clean = tplroot ~ '.macapp.clean' %}
 
 include:
