@@ -14,7 +14,7 @@ appcode:
   version: latest
 
   command: /appcode
-  config_file: None
+  config_file: null
   config: {}
   environ_file: /etc/defaults/appcode.sh
   environ: []
@@ -28,7 +28,7 @@ appcode:
       - gzip
     suffix: dmg
     macapp:
-      path: None
+      path: null
       uri: 'https://data.services.jetbrains.com/products/releases?latest=true&code='
 
   dir:
