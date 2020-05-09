@@ -13,7 +13,6 @@ ignore: |
   test/**/states/**/*.sls
   .kitchen/
   appcode/defaults.yaml
-  pillar.example
 
 yaml-files:
   # Default settings

@@ -1,7 +1,7 @@
 .. _readme:
 
 appcode-formula
-============
+===============
 
 |img_travis| |img_sr|
 
