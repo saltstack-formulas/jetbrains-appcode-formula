@@ -12,7 +12,7 @@ include:
 
     {%- else %}
 
-appcode-not-available-to-install:
+appcode-not-available-to-clean:
   test.show_notification:
     - text: |
         The appcode package is unavailable for {{ salt['grains.get']('finger', grains.os_family) }}
