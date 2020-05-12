@@ -17,6 +17,7 @@ appcode-formula
 Formula to install Appcode on MacOS.
 
 .. contents:: **Table of Contents**
+   :depth: 1
 
 General notes
 -------------
