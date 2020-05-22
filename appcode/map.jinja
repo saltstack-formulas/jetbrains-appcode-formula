@@ -1,32 +1,28 @@
 # -*- coding: utf-8 -*-
 # vim: ft=jinja
 
-# Start with defaults and merge pillars
-{% import_yaml 'appcode/defaults.yaml' as defs %}
-{% set ide = salt['pillar.get']( 'appcode', default=defs.appcode, merge=True) %}
+{%- set tplroot = tpldir.split('/')[0] %}
+{%- import_yaml tplroot ~ "/defaults.yaml" as default_settings %}
 
-# Get release metadata & build dynamic config
-{%- set pcode = ide.jetbrains.product %}
-{%- set jdata = salt['cmd.run']('curl {0} {1}{2}'.format(ide.dl.opts, ide.jetbrains.uri, pcode))|load_yaml %}
-{%- set src_hashurl = jdata[ pcode ][0]['downloads'][ ide.osflavour ]['checksumLink'] %}
-{%- set src_hashsum  = salt['cmd.run']('curl -s {0}'.format( src_hashurl )).split(' ')[0] %}
-{% set _home = '{0}.app/Contents/MacOS'.format(ide.prefix) %}
-
-# Get user's group name from pillar or 'id' command
-{%- if not ide.prefs.group %}
-  {%- set usergroup = salt['cmd.run']('id -gn', runas=ide.prefs.user, output_loglevel='quiet',) or None %}
-  {%- do ide.prefs.update({'group': usergroup,}) %}
-{% endif %}
-
-# Update dictionaries
-{% do ide.jetbrains.update({ 'realhome': _home, 'realcmd': _home ~ ide.command },) %}
-{% do ide.dl.update({
-       'source_url'  : jdata[ pcode ][0]['downloads'][ ide.osflavour ]['link'],
-       'archive_name': jdata[ pcode ][0]['downloads'][ ide.osflavour ]['link'].split('/') | last ,
-       'src_hashurl' : src_hashurl,
-       'src_hashsum' : src_hashsum,
-       'unpack_opts' : ' -z -C ' ~  _home ~ ' --strip-components=1' },
+{%- set _config = salt['config.get'](tplroot, default={}) %}
+{%- set defaults = salt['grains.filter_by'](
+      default_settings,
+      default=tplroot,
+        merge=salt['grains.filter_by']( _config, default='lookup'
+      )
     )
 %}
-{% set appcode = ide %}
+{%- set appcode = salt['grains.filter_by']( {'defaults': defaults}, default='defaults', merge=_config) %}
 
+{%- set pcode = appcode.product ~ appcode.edition if appcode.edition else appcode.product %}
+{%- set jdata = salt['cmd.run']('curl -s -L {0}{1}'.format(appcode.pkg.macapp.uri, pcode))|load_yaml %}
+{%- do appcode.update({ 'version': jdata[ pcode ][0]['version'] }) %}
+
+{%- set dirname = 'appcode-%s-%s'|format( appcode.edition if appcode.edition else '', appcode.version) %}
+{%- set url = jdata[ pcode ][0]['downloads'][ appcode.flavour ]['link'] %}
+{%- set hash  = salt['cmd.run']('curl -L -s {0}'.format( jdata[ pcode ][0]['downloads'][ appcode.flavour ]['checksumLink'])).split(' ')[0] %}  # noqa 204
+
+{%- if appcode.pkg.use_upstream_macapp %}
+       {%- do appcode.pkg.macapp.update({
+              'name': '/Applications', 'path': '/Applications', 'source': url, 'source_hash': hash }) %}
+{%- endif %}
