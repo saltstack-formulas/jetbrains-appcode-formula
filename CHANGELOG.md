@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.0.1](https://github.com/saltstack-formulas/jetbrains-appcode-formula/compare/v1.0.0...v1.0.1) (2020-06-15)
+
+
+### Bug Fixes
+
+* **edition:** better edition jinja code ([ad2f797](https://github.com/saltstack-formulas/jetbrains-appcode-formula/commit/ad2f79795633da937d8e2feb9cd20ae840c507e8))
+
+
+### Continuous Integration
+
+* **kitchen+travis:** add new platforms [skip ci] ([ddf769b](https://github.com/saltstack-formulas/jetbrains-appcode-formula/commit/ddf769be52a84b94fb49afb7a526d72d4bfeeb0f))
+
+
+### Documentation
+
+* **readme:** update formattings ([2969be7](https://github.com/saltstack-formulas/jetbrains-appcode-formula/commit/2969be7ee177606ac7cd3a7fe7f8d4d93c0d1ef9))
+
 # [1.0.0](https://github.com/saltstack-formulas/jetbrains-appcode-formula/compare/v0.1.0...v1.0.0) (2020-05-22)
 
 
