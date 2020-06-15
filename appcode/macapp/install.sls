@@ -55,7 +55,7 @@ appcode-macos-app-install-macpackage:
     - template: jinja
     - context:
       appname: {{ appcode.pkg.name }}
-      edition: {{ appcode.edition }}
+      edition: {{ '' if 'edition' not in appcode else appcode.edition }}
       user: {{ appcode.identity.user }}
       homes: {{ appcode.dir.homes }}
   cmd.run:

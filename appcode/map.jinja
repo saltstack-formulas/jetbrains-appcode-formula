@@ -12,17 +12,22 @@
       )
     )
 %}
-{%- set appcode = salt['grains.filter_by']( {'defaults': defaults}, default='defaults', merge=_config) %}
+{%- set a = salt['grains.filter_by']( {'defaults': defaults}, default='defaults', merge=_config) %}
 
-{%- set pcode = appcode.product ~ appcode.edition if appcode.edition else appcode.product %}
-{%- set jdata = salt['cmd.run']('curl -s -L {0}{1}'.format(appcode.pkg.macapp.uri, pcode))|load_yaml %}
-{%- do appcode.update({ 'version': jdata[ pcode ][0]['version'] }) %}
+{%- set edition = '' if 'edition' not in a else a.edition %}
+{%- set pcode = a.product ~ edition %}
+{%- set jdata = salt['cmd.run']('curl -s -L {0}{1}'.format(a.pkg.macapp.uri, pcode))|load_yaml %}
+{%- do a.update({ 'version': jdata[ pcode ][0]['version'] }) %}
 
-{%- set dirname = 'appcode-%s-%s'|format( appcode.edition if appcode.edition else '', appcode.version) %}
-{%- set url = jdata[ pcode ][0]['downloads'][ appcode.flavour ]['link'] %}
-{%- set hash  = salt['cmd.run']('curl -L -s {0}'.format( jdata[ pcode ][0]['downloads'][ appcode.flavour ]['checksumLink'])).split(' ')[0] %}  # noqa 204
+{%- set dirname = 'a-%s-%s'|format( edition, a.version) %}
+{%- set url = jdata[ pcode ][0]['downloads'][ a.flavour ]['link'] %}
+{%- set hash  = salt['cmd.run']('curl -L -s {0}'.format( jdata[ pcode ][0]['downloads'][ a.flavour ]['checksumLink'])).split(' ')[0] %}  # noqa 204
 
-{%- if appcode.pkg.use_upstream_macapp %}
-       {%- do appcode.pkg.macapp.update({
-              'name': '/Applications', 'path': '/Applications', 'source': url, 'source_hash': hash }) %}
+{%- if a.pkg.use_upstream_macapp %}
+    {%- do a.pkg.macapp.update({'name': '/Applications',
+                                'path': '/Applications',
+                                'source': url,
+                                'source_hash': hash }) %}
 {%- endif %}
+
+{%- set appcode = a %}
