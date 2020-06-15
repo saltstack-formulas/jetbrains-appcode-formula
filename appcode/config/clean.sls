@@ -18,6 +18,6 @@ appcode-config-clean-file-absent:
                {%- if appcode.environ_file %}
       - {{ appcode.environ_file }}
                {%- endif %}
-      - {{ appcode.dir.homes }}/{{ appcode.identity.user }}/Desktop/{{ appcode.pkg.name }}{{ ' %sE'|format(appcode.edition) if appcode.edition else '' }}  # noqa 204
+      - {{ appcode.dir.homes }}/{{ appcode.identity.user }}/Desktop/{{ appcode.pkg.name }}{{ '' if 'edition' not in appcode else '\ %sE'|format(appcode.edition) }}  # noqa 204
     - require:
       - sls: {{ sls_package_clean }}

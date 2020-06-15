@@ -10,7 +10,7 @@ appcode-macos-app-clean-files:
   file.absent:
     - names:
       - {{ appcode.dir.tmp }}
-      - /Applications/{{ appcode.pkg.name }}{{ ' %sE'|format(appcode.edition) if appcode.edition else '' }}.app
+      - /Applications/{{ appcode.pkg.name }}{{ '' if 'edition' not in appcode else '\ %sE'|format(appcode.edition) }}.app    # noqa 204
 
     {%- else %}
 
