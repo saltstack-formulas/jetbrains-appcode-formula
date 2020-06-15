@@ -55,7 +55,7 @@ Available states
    :local:
 
 ``appcode``
-^^^^^^^^^^
+^^^^^^^^^^^
 
 *Meta-state (This is a state that includes other states)*.
 
@@ -64,18 +64,18 @@ manages Appcode configuration file and then
 configures the development environment.
 
 ``appcode.macapp``
-^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^
 
 This state will install Appcode from source only.
 
 ``appcode.config``
-^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^
 
 This state will configure npmrc and/or environment and has a dependency on ``appcode.install``
 via include list.
 
 ``appcode.clean``
-^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^
 
 *Meta-state (This is a state that includes other states)*.
 
@@ -84,7 +84,7 @@ removes the configuration file and
 then uninstalls the package.
 
 ``appcode.config.clean``
-^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 This state will remove the configuration of Appcode and has a
 dependency on ``appcode.package.clean`` via include list.
@@ -92,7 +92,7 @@ dependency on ``appcode.package.clean`` via include list.
 ``appcode.config.clean`` via include list.
 
 ``appcode.macapp.clean``
-^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 This state will remove Appcode package and has a dependency on
 ``appcode.config.clean`` via include list.
