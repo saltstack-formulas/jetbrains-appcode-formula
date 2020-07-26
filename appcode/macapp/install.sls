@@ -14,7 +14,7 @@ appcode-macos-app-install-curl:
   pkg.installed:
     - name: curl
   cmd.run:
-    - name: curl -Lo {{ appcode.dir.tmp }}/appcode-{{ appcode.version }} {{ appcode.pkg.macapp.source }}
+    - name: curl -Lo {{ appcode.dir.tmp }}/appcode-{{ appcode.version }} "{{ appcode.pkg.macapp.source }}"
     - unless: test -f {{ appcode.dir.tmp }}/appcode-{{ appcode.version }}
     - require:
       - file: appcode-macos-app-install-curl
