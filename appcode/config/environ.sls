@@ -22,7 +22,7 @@ appcode-config-file-file-managed-environ_file:
     - makedirs: True
     - template: jinja
     - context:
-        path: '/Applications/{{ appcode.pkg.name }}{{ '' if 'edition' not in appcode else '\ %sE'|format(appcode.edition) }}.app/Contents/MacOS'    # noqa 204
+        path: '{{ appcode.config.path }}/{{ appcode.pkg.name }}{{ '' if 'edition' not in appcode else ' %sE'|format(appcode.edition) }}.app/Contents/MacOS'    # noqa 204
         environ: {{ appcode.environ|json }}
     - require:
       - sls: {{ sls_package_install }}

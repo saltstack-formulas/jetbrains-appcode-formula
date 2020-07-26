@@ -24,10 +24,8 @@
 {%- set hash  = salt['cmd.run']('curl -L -s "{0}"'.format( jdata[ pcode ][0]['downloads'][ a.flavour ]['checksumLink'])).split(' ')[0] %}  # noqa 204
 
 {%- if a.pkg.use_upstream_macapp %}
-    {%- do a.pkg.macapp.update({'name': '/Applications',
-                                'path': '/Applications',
-                                'source': url,
-                                'source_hash': hash }) %}
+    {%- do a.config.update({ 'path': '/Applications' }) %}
+    {%- do a.pkg.macapp.update({ 'source': url, 'source_hash': hash }) %}
 {%- endif %}
 
 {%- set appcode = a %}
