@@ -54,10 +54,14 @@ appcode-macos-app-install-macpackage:
     - mode: 755
     - template: jinja
     - context:
-      appname: {{ appcode.pkg.name }}
+      appname: {{ appcode.dir.path }}/{{ appcode.pkg.name }}
       edition: {{ '' if 'edition' not in appcode else appcode.edition }}
       user: {{ appcode.identity.user }}
       homes: {{ appcode.dir.homes }}
+    - require:
+      - macpackage: appcode-macos-app-install-macpackage
+    - onchanges:
+      - macpackage: appcode-macos-app-install-macpackage
   cmd.run:
     - name: /tmp/mac_shortcut.sh
     - runas: {{ appcode.identity.user }}

@@ -2,27 +2,27 @@
 # vim: ft=sls
 
 {%- set tplroot = tpldir.split('/')[0] %}
-{%- from tplroot ~ "/map.jinja" import appcode with context %}
+{%- from tplroot ~ "/map.jinja" import appcode as a with context %}
 {%- from tplroot ~ "/libtofs.jinja" import files_switch with context %}
 {%- set sls_package_install = tplroot ~ '.macapp.install' %}
 
 include:
   - {{ sls_package_install }}
 
-appcode-config-file-file-managed-environ_file:
+a-config-file-file-managed-environ_file:
   file.managed:
-    - name: {{ appcode.environ_file }}
+    - name: {{ a.environ_file }}
     - source: {{ files_switch(['environ.sh.jinja'],
-                              lookup='appcode-config-file-file-managed-environ_file'
+                              lookup='a-config-file-file-managed-environ_file'
                  )
               }}
     - mode: 644
-    - user: {{ appcode.identity.rootuser }}
-    - group: {{ appcode.identity.rootgroup }}
+    - user: {{ a.identity.rootuser }}
+    - group: {{ a.identity.rootgroup }}
     - makedirs: True
     - template: jinja
     - context:
-        path: '{{ appcode.config.path }}/{{ appcode.pkg.name }}{{ '' if 'edition' not in appcode else ' %sE'|format(appcode.edition) }}.app/Contents/MacOS'    # noqa 204
-        environ: {{ appcode.environ|json }}
+      path: {{ a.config.path }}/{{ a.pkg.name }}{{ '' if 'edition' not in a else ' %sE'|format(a.edition) }}.app/Contents/MacOS   # noqa 204
+      environ: {{ a.environ|json }}
     - require:
       - sls: {{ sls_package_install }}

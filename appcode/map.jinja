@@ -19,7 +19,7 @@
 {%- set jdata = salt['cmd.run']('curl -s -L "{0}{1}"'.format(a.pkg.macapp.uri, pcode))|load_yaml %}
 {%- do a.update({ 'version': jdata[ pcode ][0]['version'] }) %}
 
-{%- set dirname = 'a-%s-%s'|format( edition, a.version) %}
+{%- set dirname = 'appcode-%s-%s'|format( edition, a.version) %}
 {%- set url = jdata[ pcode ][0]['downloads'][ a.flavour ]['link'] %}
 {%- set hash  = salt['cmd.run']('curl -L -s "{0}"'.format( jdata[ pcode ][0]['downloads'][ a.flavour ]['checksumLink'])).split(' ')[0] %}  # noqa 204
 
