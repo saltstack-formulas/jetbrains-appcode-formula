@@ -27,8 +27,8 @@ appcode:
       - tar
       - gzip
     suffix: dmg
-    macapp:
-      uri: 'https://data.services.jetbrains.com/products/releases?latest=true&code='
+    uri: 'https://data.services.jetbrains.com/products/releases?latest=true&code='
+    macapp: {}
 
   dir:
     path: null

@@ -4,19 +4,23 @@
     {%- if grains.os_family == 'MacOS' %}
 
 {%- set tplroot = tpldir.split('/')[0] %}
-{%- from tplroot ~ "/map.jinja" import appcode as a with context %}
+{%- from tplroot ~ "/map.jinja" import appcode with context %}
 
-a-macos-app-clean-files:
+appcode-macos-app-clean-files:
   file.absent:
     - names:
-      - {{ a.dir.tmp }}
-      - {{ a.config.path }}/{{ a.pkg.name }}{{ '' if 'edition' not in a else ' %sE'|format(a.edition) }}.app
+      - {{ appcode.dir.tmp }}
+                  {%- if grains.os == 'MacOS' %}
+      - {{ appcode.dir.path }}/{{ appcode.pkg.name }}*{{ appcode.edition }}*.app
+                  {%- else %}
+      - {{ appcode.dir.path }}
+                  {%- endif %}
 
     {%- else %}
 
-a-macos-app-clean-unavailable:
+appcode-macos-app-clean-unavailable:
   test.show_notification:
     - text: |
-        The a macpackage is only available on MacOS
+        The appcode macpackage is only available on MacOS
 
     {%- endif %}

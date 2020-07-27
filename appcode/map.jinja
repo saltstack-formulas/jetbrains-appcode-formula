@@ -16,7 +16,7 @@
 
 {%- set edition = '' if 'edition' not in a else a.edition %}
 {%- set pcode = a.product ~ edition %}
-{%- set jdata = salt['cmd.run']('curl -s -L "{0}{1}"'.format(a.pkg.macapp.uri, pcode))|load_yaml %}
+{%- set jdata = salt['cmd.run']('curl -s -L "{0}{1}"'.format(a.pkg.uri, pcode))|load_yaml %}
 {%- do a.update({ 'version': jdata[ pcode ][0]['version'] }) %}
 
 {%- set dirname = 'appcode-%s-%s'|format( edition, a.version) %}
@@ -24,8 +24,8 @@
 {%- set hash  = salt['cmd.run']('curl -L -s "{0}"'.format( jdata[ pcode ][0]['downloads'][ a.flavour ]['checksumLink'])).split(' ')[0] %}  # noqa 204
 
 {%- if a.pkg.use_upstream_macapp %}
-    {%- do a.config.update({ 'path': '/Applications' }) %}
-    {%- do a.pkg.macapp.update({ 'source': url, 'source_hash': hash }) %}
+    {%- do a.dir.update({'path': '/Applications'}) %}
+    {%- do a.pkg.macapp.update({'source': url, 'source_hash': hash}) %}
 {%- endif %}
 
 {%- set appcode = a %}
