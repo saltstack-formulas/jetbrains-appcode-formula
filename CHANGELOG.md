@@ -1,5 +1,35 @@
 # Changelog
 
+## [1.0.2](https://github.com/saltstack-formulas/jetbrains-appcode-formula/compare/v1.0.1...v1.0.2) (2020-07-28)
+
+
+### Bug Fixes
+
+* **cmd.run:** wrap url in quotes (zsh) ([86c256b](https://github.com/saltstack-formulas/jetbrains-appcode-formula/commit/86c256b657f12bf882dd9b20886ac8bd9377ede9))
+* **macos:** correct syntax ([36292b4](https://github.com/saltstack-formulas/jetbrains-appcode-formula/commit/36292b448e1dfd17f0eed6f24e4d9c768ed3d1ab))
+
+
+### Code Refactoring
+
+* **jetbrains:** align all jetbrains formulas ([ffc4b97](https://github.com/saltstack-formulas/jetbrains-appcode-formula/commit/ffc4b9727264b5ba3c5ca804db5fb6b661797a1f))
+* **macos:** handle /applications ([d153a67](https://github.com/saltstack-formulas/jetbrains-appcode-formula/commit/d153a67a6750d5f3e02f70f75a4562f7b5317dde))
+* **path:** consistent path vars ([2338c2d](https://github.com/saltstack-formulas/jetbrains-appcode-formula/commit/2338c2d0ea345f984786edb48496c7c4502d52fc))
+
+
+### Continuous Integration
+
+* **kitchen:** use `saltimages` Docker Hub where available [skip ci] ([c44d043](https://github.com/saltstack-formulas/jetbrains-appcode-formula/commit/c44d0433363c1cbc8d861ebc903189798c55e10d))
+
+
+### Documentation
+
+* **readme:** minor update ([73b1d8b](https://github.com/saltstack-formulas/jetbrains-appcode-formula/commit/73b1d8b1d9285776689ef776d064c0d3277d6bda))
+
+
+### Styles
+
+* **libtofs.jinja:** use Black-inspired Jinja formatting [skip ci] ([b8e7867](https://github.com/saltstack-formulas/jetbrains-appcode-formula/commit/b8e7867ac18b73e0f9549ff215e46963143def3e))
+
 ## [1.0.1](https://github.com/saltstack-formulas/jetbrains-appcode-formula/compare/v1.0.0...v1.0.1) (2020-06-15)
 
 
