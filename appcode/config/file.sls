@@ -24,8 +24,7 @@ appcode-config-file-managed-config_file:
     - makedirs: True
     - template: jinja
     - context:
-        path: {{ appcode.pkg.macapp.path }}
-        config: {{ appcode.config|json }}
+      config: {{ appcode.config|json }}
     - require:
       - sls: {{ sls_package_install }}
 

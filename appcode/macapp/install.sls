@@ -14,8 +14,10 @@ appcode-macos-app-install-curl:
   pkg.installed:
     - name: curl
   cmd.run:
-    - name: curl -Lo {{ appcode.dir.tmp }}/appcode-{{ appcode.version }} {{ appcode.pkg.macapp.source }}
-    - unless: test -f {{ appcode.dir.tmp }}/appcode-{{ appcode.version }}
+    - name: curl -Lo {{ appcode.dir.tmp }}/appcode-{{ appcode.version }} "{{ appcode.pkg.macapp.source }}"
+    - unless:
+      - test -f {{ appcode.dir.tmp }}/appcode-{{ appcode.version }}
+      - test -d {{ appcode.dir.path }}/{{ appcode.pkg.name }}{{ '' if not appcode.edition else ' %sE'|format(appcode.edition) }}  # noqa 204
     - require:
       - file: appcode-macos-app-install-curl
       - pkg: appcode-macos-app-install-curl
@@ -49,17 +51,21 @@ appcode-macos-app-install-macpackage:
     - onchanges:
       - cmd: appcode-macos-app-install-curl
   file.managed:
-    - name: /tmp/mac_shortcut.sh
-    - source: salt://appcode/files/mac_shortcut.sh
+    - name: /tmp/mac_shortcut.sh.jinja
+    - source: salt://appcode/files/mac_shortcut.sh.jinja
     - mode: 755
     - template: jinja
     - context:
-      appname: {{ appcode.pkg.name }}
-      edition: {{ '' if 'edition' not in appcode else appcode.edition }}
+      appname: {{ appcode.dir.path }}/{{ appcode.pkg.name }}
+      edition: {{ '' if not appcode.edition else ' ' ~ appcode.edition }}
       user: {{ appcode.identity.user }}
       homes: {{ appcode.dir.homes }}
+    - require:
+      - macpackage: appcode-macos-app-install-macpackage
+    - onchanges:
+      - macpackage: appcode-macos-app-install-macpackage
   cmd.run:
-    - name: /tmp/mac_shortcut.sh
+    - name: /tmp/mac_shortcut.sh.jinja
     - runas: {{ appcode.identity.user }}
     - require:
       - file: appcode-macos-app-install-macpackage
