@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.0.3](https://github.com/saltstack-formulas/jetbrains-appcode-formula/compare/v1.0.2...v1.0.3) (2020-12-16)
+
+
+### Continuous Integration
+
+* **gitlab-ci:** use GitLab CI as Travis CI replacement ([49a028a](https://github.com/saltstack-formulas/jetbrains-appcode-formula/commit/49a028af0800c2f1c00968f933132bf01ba341ea))
+* **pre-commit:** add to formula [skip ci] ([190e3f7](https://github.com/saltstack-formulas/jetbrains-appcode-formula/commit/190e3f74f1ce3084b4cee89ce88a5257fcdcae12))
+* **pre-commit:** enable/disable `rstcheck` as relevant [skip ci] ([d9760ef](https://github.com/saltstack-formulas/jetbrains-appcode-formula/commit/d9760ef5066cdfe69d83c2317dbacca0e3596663))
+* **pre-commit:** finalise `rstcheck` configuration [skip ci] ([336a702](https://github.com/saltstack-formulas/jetbrains-appcode-formula/commit/336a70243a25887c4c090ca69c21447dbd365cb6))
+
+
+### Documentation
+
+* **readme:** fix `rstcheck` violation [skip ci] ([83d8993](https://github.com/saltstack-formulas/jetbrains-appcode-formula/commit/83d8993d9d02aa6a527d8bac9c9ab0032e71ae81)), closes [/travis-ci.org/github/myii/jetbrains-appcode-formula/builds/731606929#L259](https://github.com//travis-ci.org/github/myii/jetbrains-appcode-formula/builds/731606929/issues/L259)
+
 ## [1.0.2](https://github.com/saltstack-formulas/jetbrains-appcode-formula/compare/v1.0.1...v1.0.2) (2020-07-28)
 
 
